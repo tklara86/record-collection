@@ -1,0 +1,33 @@
+.album-container--alt {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+.album-card--alt {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: theme-colors('bg-color', 'albumCard-light');
+  height: 400px;
+
+  img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+  }
+}
+
+.album-details {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.album-heading {
+  flex-basis: 100%;
+}

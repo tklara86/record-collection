@@ -1,0 +1,78 @@
+.album-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem;
+  max-width: 1700px;
+  margin: 0;
+}
+
+.album-card {
+  padding: 2rem;
+  background-color: theme-colors('bg-color', 'albumCard-light');
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.album-flex-t {
+  flex-basis: 100%;
+}
+
+.album-artist {
+  color: theme-colors('text', 'accent');
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.album-title {
+  color: theme-colors('text', 'body-text-alt');
+  font-family: 'Crimson', serif;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+.album-title--alt {
+  color: theme-colors('text', 'body-text-alt');
+  font-family: 'Crimson', serif;
+  font-weight: 600;
+}
+
+.album-info {
+  display: flex;
+  margin-top: 4rem;
+
+  &--details {
+    span {
+
+      font-weight: 500;
+      color: theme-colors('text', 'body-text-alt');
+    }
+    p {
+      margin-bottom: 0;
+      color: theme-colors('text', 'grey-dark');
+    }
+  }
+
+  &--divider {
+    &::after {
+      content: '|';
+      width: 100%;
+      height: 100%;
+      display: inline;
+      margin: 10px;
+    }
+
+  }
+}
+span.divider:not(:last-of-type):after {
+  content: ', ';
+  width: 100%;
+  height: 100%;
+  display: inline;
+}
+
+
+
+

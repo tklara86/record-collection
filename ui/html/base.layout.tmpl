@@ -3,22 +3,29 @@
 <html lang='en'>
 <head>
     <meta charset='utf-8'>
-    <title>{{ template "title" .}} - Snippetbox</title>
-    <link rel='stylesheet' href='./dist/main.css'>
+    <title>{{ template "title" .}} - Record Collection</title>
+    <link rel='stylesheet' href='/dist/main.css'>
 </head>
 <body>
-<header>
-    <h1><a href='/'>Snippetbox</a></h1>
+<header class="header header-light">
+    <!-- Navbar -->
+    {{ template "nav" .}}
 </header>
-<!-- Navbar -->
-{{ template "nav" .}}
+
 <!-- Main -->
 <main>
     {{ template "main" .}}
 </main>
 
+
+
+
 <!-- Footer -->
 {{ template "footer" .}}
+{{ block "js" .}}
+    <script src='/dist/main.js'></script>
+{{end}}
+
 </body>
 </html>
 {{end}}

@@ -28,7 +28,32 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 
-	err = ts.Execute(w, nil)
+
+	type Link struct {
+		LinkTitle string
+		LinkPath string
+	}
+
+	type Links struct {
+		Link []Link
+	}
+
+	data := Links{
+		Link: []Link{
+			{
+				LinkTitle: "Home",
+				LinkPath:  "/",
+
+			},
+			{
+				LinkTitle: "Add Record",
+				LinkPath:  "/record/create",
+
+			},
+		},
+	}
+
+	err = ts.Execute(w, data)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

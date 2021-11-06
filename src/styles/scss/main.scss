@@ -1,9 +1,16 @@
-@import "partials/base";
+@import "partials/mixins",
+        "partials/variables",
+        "partials/typography",
+        "partials/colors",
+        "partials/grid",
+        "partials/icons",
+        "partials/base",
+        "partials/alerts",
+        "partials/form",
+        "partials/navbar",
+        "partials/notify",
+        "partials/buttons",
+        "partials/custom";
 
 
-
-body {
-  background-color: #eee;
-  backdrop-filter: blur(10px);
-}
 

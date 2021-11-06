@@ -1,0 +1,55 @@
+/*------------------------------------*\
+  #ICONS
+
+  https://icons.modulz.app
+\*------------------------------------*/
+
+.icon {
+  width: 25px;
+  height: 25px;
+  fill: var(--linksColor);
+  transition: .3s ease-in;
+}
+
+.icon-admin {
+  width: 25px;
+  height: 25px;
+}
+
+.icon-account {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+}
+
+.icon-logo {
+  width: 75px;
+  height: 75px;
+}
+
+.icon-glass,
+.icon-calendar {
+  fill: #fff;
+  margin-right: 15px;
+}
+
+.icon-dots {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  fill: #d94e4e;
+}
+.icon-success,
+.icon-alert {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-alert {
+  fill: red;
+}
+
+.icon-success {
+  fill: green;
+}
+

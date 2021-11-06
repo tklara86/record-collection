@@ -1,10 +1,170 @@
-$bg: green;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+/*
+  Using rems instead of pixels
+ */
+$font-size: 62.5%; /* 10px / 16px = 62.5%  1rem = 10px; */
 
+html {
+  font-size: $font-size;
+  font-family: $font-primary;
+}
 
+// so you can click the svg
+#dropDownMenuButton > * {
+  pointer-events: none;
+}
 
-
-p {
-  color: yellowgreen;
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
 }
 
 
+
+
+
+body {
+  box-sizing: border-box;
+  font-size: var(--text-base-size);
+  color: var(--text-body);
+  background: var(--bodyBackground);
+}
+
+
+ .container {
+   padding: 50px;
+ }
+
+ //:root {
+ //  --btn-font-size: 1em;
+ //  --btn-radius: 0.25em;
+ //}
+ //
+ //:root {
+ //  --icon-xs: 16px;
+ //  --icon-sm: 24px;
+ //  --icon-md: 32px;
+ //  --icon-lg: 48px;
+ //  --icon-xl: 64px;
+ //}
+ //
+ ///* CSS color variables for light and dark background components */
+ //:root {
+ //  --color-primary-bg: white;
+ //  --color-text: #3f3f3f;
+ //  --color-icon-primary: #f7715d;
+ //}
+ //
+ //
+ //p {
+ //  color: var(--color-text);
+ //}
+ //a {
+ //  text-decoration: none;
+ //}
+ //.full-center {
+ //  justify-content: center;
+ //  flex-direction: column;
+ //  height: calc(100vh - (#{$navHeight} * 2));
+ //  display: flex;
+ //  width: 100%;
+ //}
+ //
+ //.form-heading {
+ //  max-width: $form-witdh;
+ //  margin: 0 auto;
+ //
+ //}
+ //.inline-adj {
+ //  display: inline;
+ //  margin-left:20px;
+ //}
+ //form {
+ //  margin: 30px auto;
+ //  max-width: $form-witdh;
+ //}
+ //.form-control {
+ //  width: 100%;
+ //  margin-top: $space--sm;
+ //  margin-bottom: $space--md;
+ //  border: 2px solid #eee;
+ //  border-radius: 7px;
+ //  padding-bottom: $space--md;
+ //  padding-top: $space--md;
+ //  padding-left: $space--md;
+ //  padding-right: $space--md;
+ //  outline: none;
+ //  font-size: 1.8rem;
+ //  transition: all 0.3s ease;
+ //  &:focus {
+ //    border: 2px solid #1a55ca;
+ //    transition: all 0.3s ease;
+ //  }
+ //}
+ //
+ //.form-center {
+ //  padding: 0 20px;
+ //}
+ //.floating-label {
+ //  position: relative;
+ //  textarea,
+ //  input {
+ //    font-weight: 500;
+ //    font-family: $font-primary;
+ //    background-color: theme-colors('bg-color', 'inputBgColor');
+ //  }
+ //  input:focus {
+ //    background-color: white;
+ //    border-color: #3b82f6;
+ //    box-shadow: 0 0 0 2px #bfdbfe;
+ //  }
+ //
+ //
+ //}
+ //label {
+ //  font-size: $text--sm;
+ //  position: absolute;
+ //  // opacity: 0;
+ //  // visibility: hidden;
+ //  font-weight: 600;
+ //}
+ //label.visible {
+ //  opacity: 1;
+ //  visibility: visible;
+ //  position: absolute;
+ //  top: -2px; // label margin bottom
+ //  transform: translateY(-50%);
+ //  transition: transform 0.2s;
+ //  color: #203e59;
+ //}
+ //
+ //.show-alert {
+ //  font-size: $text--md;
+ //  text-align: center;
+ //  margin-bottom: 0;
+ //
+ //
+ //}
+ //.is-success {
+ //  color: theme-colors("alert", "success");
+ //  &:focus {
+ //    border: 2px solid theme-colors("alert", "success");
+ //  }
+ //}
+ //
+ //.is-danger {
+ //  color: theme-colors("alert", "danger");
+ //  &:focus {
+ //    border: 2px solid theme-colors("alert", "danger");
+ //  }
+ //}
+ //
+ //.is-warning {
+ //  color: theme-colors("alert", "warning");
+ //  &:focus {
+ //    border: 2px solid theme-colors("alert", "warning");
+ //  }
+ //}

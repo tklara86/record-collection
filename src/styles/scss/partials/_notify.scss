@@ -1,0 +1,19 @@
+/* notie override styles here */
+.notie-container {
+  box-shadow: none;
+}
+
+/* sweet alert override styles here */
+.swal2-popup {
+  width: max-content !important;
+}
+
+.swal2-title,
+.swal2-popup.swal2-toast .swal2-title,
+.swal2-styled {
+  font-size: initial !important;
+}
+
+.swal2-title {
+  font-size: $text--xl !important;
+}
