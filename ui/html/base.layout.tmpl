@@ -1,0 +1,24 @@
+{{ define "base"}}
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <title>{{ template "title" .}} - Snippetbox</title>
+    <link rel='stylesheet' href='./dist/main.css'>
+</head>
+<body>
+<header>
+    <h1><a href='/'>Snippetbox</a></h1>
+</header>
+<!-- Navbar -->
+{{ template "nav" .}}
+<!-- Main -->
+<main>
+    {{ template "main" .}}
+</main>
+
+<!-- Footer -->
+{{ template "footer" .}}
+</body>
+</html>
+{{end}}
