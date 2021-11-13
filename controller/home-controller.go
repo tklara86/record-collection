@@ -1,9 +1,13 @@
 package controller
 
 import (
+	"github.com/record-collection/errors"
 	"html/template"
-	"log"
 	"net/http"
+)
+
+var (
+	errorType = errors.NewServiceErrors()
 )
 
 type HomeController interface {
@@ -18,7 +22,7 @@ func NewHomeController() HomeController{
 
 func (*homeController) Home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		http.NotFound(w,r)
+		errorType.NotFound(w)
 		return
 	}
 
@@ -32,8 +36,8 @@ func (*homeController) Home(w http.ResponseWriter, r *http.Request) {
 	ts, err := template.ParseFiles(files...)
 
 	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		errorType.ServerError(w, err)
+		return
 	}
 
 
@@ -61,7 +65,6 @@ func (*homeController) Home(w http.ResponseWriter, r *http.Request) {
 
 	err = ts.Execute(w, data)
 	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		errorType.ServerError(w, err)
 	}
 }
