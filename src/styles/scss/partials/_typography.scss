@@ -26,7 +26,8 @@
   --heading-line-height: 1.2;
   --body-line-height: 1.5;
 }
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&display=swap');
 
 $text--xxs: calc(var(--text-base-size) / (var(--text-scale-ratio) / var(--text-scale-ratio)));
 $text--xs: calc(var(--text-base-size) / var(--text-scale-ratio));

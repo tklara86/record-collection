@@ -1,7 +1,4 @@
-
 import "./styles/scss/main.scss";
-
-
 
 
 //let attention = Prompt();
@@ -352,3 +349,34 @@ function notifyModal(title, text, icon, confirmationButton) {
 // }
 
 
+
+
+/* Custom select */
+
+const customSelects = document.querySelectorAll('.custom-select');
+
+customSelects.forEach(customSelect => {
+    customSelect.addEventListener('click', (e) => {
+        e.currentTarget.parentElement.classList.toggle('show');
+
+        const option = e.currentTarget.nextElementSibling;
+        const options = option.querySelectorAll('.custom-option li');
+        const customOption = option.querySelector('.custom-option');
+
+        const value = customSelect.querySelector('.value')
+
+        options.forEach(item=> {
+            item.addEventListener('click', function (e) {
+                value.innerHTML = e.target.innerHTML;
+                e.target.parentElement.classList.remove('show');
+            })
+        })
+
+        window.addEventListener('click', function (e) {
+            if(e.target !== customSelect && e.target !== customOption) {
+                customSelect.parentElement.classList.remove('show');
+            }
+        })
+
+    })
+})
