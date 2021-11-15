@@ -211,7 +211,7 @@ label {
 }
 .option {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 5px);
   max-height: 0;
   overflow-y: hidden;
   width: 100%;
@@ -263,13 +263,10 @@ ul.custom-option {
 }
 
 .icon {
-  background: url('/dist/icons/chevron-down.svg');
-  background-position-x: 0%;
-  background-position-y: 0%;
-  background-repeat: repeat;
+  background-position-x: 0;
+  background-position-y: 0;
   display: inline-block;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('/dist/icons/chevron-down.svg') no-repeat center;
   width: 20px;
   height: 20px;
   background-size: cover;
@@ -277,13 +274,10 @@ ul.custom-option {
 
 
 .select.show .icon {
-  background: url('/dist/icons/chevron-up.svg');
-  background-position-x: 0%;
-  background-position-y: 0%;
-  background-repeat: repeat;
+  background-position-x: 0;
+  background-position-y: 0;
   display: inline-block;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: url('/dist/icons/chevron-up.svg') no-repeat center;
   width: 20px;
   height: 20px;
   background-size: cover;

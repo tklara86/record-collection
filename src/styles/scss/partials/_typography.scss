@@ -148,8 +148,12 @@ p {
 }
 ul li,
 ol li,
-span {
+ {
   line-height: $body-line-height;
   list-style: none;
+}
+
+span {
+  line-height: 1;
 }
 
