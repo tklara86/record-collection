@@ -1,8 +1,8 @@
 package repository
 
+import "database/sql"
 
 type RecordRepository interface {
-	Save(record string)
-	FindAll([]string, error)
+	OpenDB(dsn string) (*sql.DB, error)
 }
 
