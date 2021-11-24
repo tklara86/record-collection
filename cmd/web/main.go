@@ -1,14 +1,12 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/record-collection/config"
-	"github.com/record-collection/controller"
 	router "github.com/record-collection/http"
+	"github.com/record-collection/models/mysql"
 	"github.com/record-collection/repository"
-	"github.com/record-collection/service"
 	"log"
 	"os"
 
@@ -17,12 +15,14 @@ import (
 
 var (
 	repo 			 = repository.NewMySQLRepository()
-	recordService    = service.NewRecordService
-	recordController = controller.NewRecordController(recordService)
-	homeController   = controller.NewHomeController()
 	httpRouter       = router.NewMuxRouter()
-	logError  		*config.Application
+	logError  		 *config.Application
 )
+
+type application struct {
+	records *mysql.RecordModel
+}
+
 
 func main() {
 
@@ -39,26 +39,18 @@ func main() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", dbUser, dbPassword, dbHost, dbName)
 
 	db, err := repo.OpenDB(dsn)
+
 	if err != nil {
 		logError.ErrorLog.Fatal(err)
 	}
 
 	defer db.Close()
 
-	httpRouter.GET("/", homeController.Home)
-	httpRouter.GET("/record", recordController.ShowRecord)
-	httpRouter.POST("/record/create", recordController.CreateRecord)
+	app := &application{records: &mysql.RecordModel{DB: db}}
+
+	httpRouter.GET("/", app.Home)
+	httpRouter.GET("/record", app.ShowRecord)
+	httpRouter.POST("/record/create", app.CreateRecord)
 	httpRouter.SERVE(os.Getenv("PORT"))
 }
 
-
-func openDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn)
-	if err != nil {
-		return nil, err
-	}
-	if err = db.Ping(); err != nil {
-		return nil, err
-	}
-	return db, nil
-}
