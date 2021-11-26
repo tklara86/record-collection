@@ -15,6 +15,7 @@ type templateData struct {
 	Records []*models.Record
 	Record *models.Record
 	Links []link
+	CurrentYear int
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {

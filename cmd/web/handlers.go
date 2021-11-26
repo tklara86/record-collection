@@ -11,16 +11,7 @@ import (
 
 var (
 	errorType = errors.NewServiceErrors()
-	links = []link{
-		{
-			LinkTitle: "Home",
-			LinkPath:  "/",
-		},
-		{
-			LinkTitle: "Add record",
-			LinkPath:  "/record/create",
-		},
-	}
+
 )
 
 
@@ -38,7 +29,7 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.render(w, r, "home.page.tmpl", &templateData{Records: s, Links: links})
+	app.render(w, r, "home.page.tmpl", &templateData{Records: s})
 
 }
 
@@ -60,7 +51,6 @@ func (app *application) ShowRecord(w http.ResponseWriter, r *http.Request) {
 
 
 	app.render(w, r, "record.page.tmpl", &templateData{
-		Links: links,
 		Record:  s,
 	})
 
