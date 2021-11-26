@@ -1,0 +1,16 @@
+{{ template "base" .}}
+
+
+
+{{define "title"}}{{.Record.Title}}{{end}}
+
+{{define "main"}}
+
+    {{with .Record}}
+        <p>{{.Title}}</p>
+        <p>{{.Label}}</p>
+        <p>{{.Year}}</p>
+    {{end}}
+
+
+{{end}}

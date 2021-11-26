@@ -7,6 +7,7 @@ import (
 	router "github.com/record-collection/http"
 	"github.com/record-collection/models/mysql"
 	"github.com/record-collection/repository"
+	"html/template"
 	"log"
 	"os"
 
@@ -21,6 +22,7 @@ var (
 
 type application struct {
 	records *mysql.RecordModel
+	templateCache map[string]*template.Template
 }
 
 
@@ -46,11 +48,22 @@ func main() {
 
 	defer db.Close()
 
-	app := &application{records: &mysql.RecordModel{DB: db}}
+	templateCache, err := newTemplateCache("./ui/html/")
+	if err != nil {
+		logError.ErrorLog.Fatal(err)
+	}
+
+	app := &application{
+		records: &mysql.RecordModel{DB: db},
+		templateCache: templateCache,
+	}
+
 
 	httpRouter.GET("/", app.Home)
 	httpRouter.GET("/record", app.ShowRecord)
 	httpRouter.POST("/record/create", app.CreateRecord)
 	httpRouter.SERVE(os.Getenv("PORT"))
+
+
 }
 

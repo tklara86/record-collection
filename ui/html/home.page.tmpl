@@ -2,36 +2,42 @@
 
 {{define "title"}}Home{{end}}
 
-{{ define "main"}}
+{{ define "main" }}
 
 <h1>Records</h1>
+{{if .Records}}
+    {{range .Records}}
+        <a href="/record?id={{.RecordID}}">{{.Title}}</a>
+    {{end}}
+{{else}}
+    <p>No records!</p>
+{{end}}
 
+{{/*<div class="select">*/}}
+{{/*    <div id="val-category" class="custom-select custom-select-category">*/}}
 
-<div class="select">
-    <div id="val-category" class="custom-select custom-select-category">
+{{/*        <div>*/}}
+{{/*            <span class="label">Category</span>*/}}
+{{/*            <span class="value">Select category</span>*/}}
+{{/*        </div>*/}}
 
-        <div>
-            <span class="label">Category</span>
-            <span class="value">Select category</span>
-        </div>
+{{/*        <span class="icon"></span>*/}}
 
-        <span class="icon"></span>
+{{/*    </div>*/}}
+{{/*    <div class="option">*/}}
+{{/*        <ul class="custom-option">*/}}
+{{/*            <li>Option 5</li>*/}}
+{{/*            <li>Option 6</li>*/}}
+{{/*            <li>Option 7</li>*/}}
+{{/*            <li>Option 9</li>*/}}
+{{/*            <li>Option 5</li>*/}}
+{{/*            <li>Option 6</li>*/}}
+{{/*            <li>Option 7</li>*/}}
+{{/*            <li>Option 9</li>*/}}
+{{/*        </ul>*/}}
+{{/*    </div>*/}}
 
-    </div>
-    <div class="option">
-        <ul class="custom-option">
-            <li>Option 5</li>
-            <li>Option 6</li>
-            <li>Option 7</li>
-            <li>Option 9</li>
-            <li>Option 5</li>
-            <li>Option 6</li>
-            <li>Option 7</li>
-            <li>Option 9</li>
-        </ul>
-    </div>
-
-</div>
+{{/*</div>*/}}
 
 
 

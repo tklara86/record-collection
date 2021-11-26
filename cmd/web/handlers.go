@@ -1,18 +1,29 @@
 package main
 
 import (
+	//"errors"
 	"fmt"
 	"github.com/record-collection/errors"
 	"github.com/record-collection/models"
-	"html/template"
-	"log"
 	"net/http"
 	"strconv"
 )
 
 var (
 	errorType = errors.NewServiceErrors()
+	links = []link{
+		{
+			LinkTitle: "Home",
+			LinkPath:  "/",
+		},
+		{
+			LinkTitle: "Add record",
+			LinkPath:  "/record/create",
+		},
+	}
 )
+
+
 
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -20,47 +31,15 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	files := []string{
-		"./ui/html/home.page.tmpl",
-		"./ui/html/base.layout.tmpl",
-		"./ui/html/footer.partial.tmpl",
-		"./ui/html/nav.partial.tmpl",
-	}
-
-	ts, err := template.ParseFiles(files...)
-
+	// get all records
+	s, err := app.records.GetAll()
 	if err != nil {
 		errorType.ServerError(w, err)
 		return
 	}
 
+	app.render(w, r, "home.page.tmpl", &templateData{Records: s, Links: links})
 
-	type Link struct {
-		LinkTitle string
-		LinkPath string
-	}
-
-	type Links struct {
-		Link []Link
-	}
-
-	data := Links{
-		Link: []Link{
-			{
-				LinkTitle: "Home",
-				LinkPath:  "/",
-			},
-			{
-				LinkTitle: "Add Record",
-				LinkPath:  "/record/create",
-			},
-		},
-	}
-
-	err = ts.Execute(w, data)
-	if err != nil {
-		errorType.ServerError(w, err)
-	}
 }
 
 
@@ -72,10 +51,19 @@ func (app *application) ShowRecord(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = fmt.Fprintf(w, "display record with id of %d", id)
+	// get record
+	s, err := app.records.Get(id)
 	if err != nil {
-		log.Fatal(err)
+		errorType.ServerError(w, err)
+		return
 	}
+
+
+	app.render(w, r, "record.page.tmpl", &templateData{
+		Links: links,
+		Record:  s,
+	})
+
 }
 
 
