@@ -117,15 +117,13 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 	}
 
 
-	err = os.MkdirAll("./covers", os.ModePerm)
+	err = os.MkdirAll("./uploads", os.ModePerm)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-
 	// Creates a new file in the covers directory
-	dst, err := os.Create(fmt.Sprintf("./ui/covers/%s", fileHeader.Filename))
+	dst, err := os.Create(fmt.Sprintf("./uploads/%s", fileHeader.Filename))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -149,7 +147,13 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 	cld, _ := cloudinary.NewFromParams(cloudinaryName, cloudinaryAPIKey, cloudinarySecret)
 
 	resp, err := cld.Upload.Upload(ctx, dst.Name(),
-		uploader.UploadParams{PublicID: fileHeader.Filename})
+		uploader.UploadParams{
+			PublicID: fileHeader.Filename,
+			AllowedFormats: []string{"jpg", "jpeg", "png"},
+			Folder: "covers",
+			Tags: []string{"album cover"},
+		})
+
 
 
 	record := &models.Record{
@@ -164,6 +168,12 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 		errorType.ServerError(w, err)
 		return
 	}
+
+	// Remove uploads file
+	//err = os.RemoveAll("./uploads")
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
 
 	http.Redirect(w, r, fmt.Sprintf("/record/%d", id), http.StatusSeeOther)
 
