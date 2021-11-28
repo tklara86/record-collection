@@ -14,6 +14,7 @@ type Record struct {
 	Title string
 	Label string
 	Year string
+	Cover string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

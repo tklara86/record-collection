@@ -5,14 +5,14 @@ form {
 .input-control {
   width: 100%;
   font-size:$text--sm;
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
   border-radius: 7px;
 
   outline: none;
 
   transition: all 0.3s ease;
   &:focus {
-    border: 2px solid #1a55ca;
+    border: 1px solid #1a55ca;
     transition: all 0.3s ease;
   }
 }
@@ -92,14 +92,15 @@ form {
   textarea:focus,
   input:focus {
     background-color: white;
-    border-color: var(--primary-red);
-    box-shadow: 0 0 0 2px var(--primary-red-light);
+    border-color: var(--highlightBlue);
+    box-shadow: 0 0 0 2px var(--highlightBlueShadow);
   }
   textarea.is-success,
   input.is-success {
     background-color: white;
     border-color: #0a910a;
     box-shadow: 0 0 0 2px rgba(138, 208, 110, 0.58);
+
   }
   textarea.is-danger,
   input.is-danger {
@@ -108,12 +109,14 @@ form {
     box-shadow: none
   }
 
+
 }
 
 label {
   font-size: $text--sm;
   font-weight: 600;
 }
+
 
 
 .form-inline {
@@ -124,6 +127,7 @@ label {
     width: 100%;
   }
 }
+
 
 .form-alert {
   position: absolute;
@@ -144,6 +148,7 @@ label {
     mask-repeat: no-repeat;
   }
 }
+
 
 .error-message {
   bottom: 5px;

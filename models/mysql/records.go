@@ -14,9 +14,10 @@ type RecordModel struct {
 }
 
 func (r *RecordModel) Insert(record *models.Record) (int, error) {
-	stmt := `INSERT INTO records (title, label, year, created_at, updated_at) VALUES (?, ?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP())`
+	stmt := `INSERT INTO records (title, label, year, cover, created_at, updated_at) VALUES (?, ?,
+?, ?, UTC_TIMESTAMP(), UTC_TIMESTAMP())`
 
-	result, err := r.DB.Exec(stmt, record.Title, record.Label, record.Year)
+	result, err := r.DB.Exec(stmt, record.Title, record.Label, record.Year, record.Cover)
 	if err != nil {
 		return  0, err
 	}
@@ -32,8 +33,9 @@ func (r *RecordModel) Insert(record *models.Record) (int, error) {
 func (r *RecordModel) Get(recordId int) (*models.Record, error) {
 	s := &models.Record{}
 
-	err := r.DB.QueryRow("SELECT record_id, title, label, year FROM records WHERE record_id = ?",
-		recordId).Scan(&s.RecordID, &s.Title, &s.Label, &s.Year)
+	err := r.DB.QueryRow("SELECT record_id, title, label, year, " +
+		"cover FROM records WHERE record_id = ?",
+		recordId).Scan(&s.RecordID, &s.Title, &s.Label, &s.Year, &s.Cover)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {

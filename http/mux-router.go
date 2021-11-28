@@ -26,13 +26,13 @@ func NewMuxRouter() Router {
 func (m *muxRouter) GET(uri string, f func(w http.ResponseWriter, r *http.Request)) {
 	muxDispatcher.HandleFunc(uri, f).Methods(http.MethodGet)
 	muxDispatcher.Use(secureHeaders)
-	//muxDispatcher.Use(logRequest)
+
 }
 
 func (m *muxRouter) POST(uri string, f func(w http.ResponseWriter, r *http.Request)) {
 	muxDispatcher.HandleFunc(uri, f).Methods(http.MethodPost)
 	muxDispatcher.Use(secureHeaders)
-	//muxDispatcher.Use(logRequest)
+
 }
 
 func (m *muxRouter) SERVE(port string) {

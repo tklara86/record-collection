@@ -1,7 +1,6 @@
 {{ template "base" .}}
 
 
-
 {{define "title"}}{{.Record.Title}}{{end}}
 
 {{define "main"}}
@@ -10,7 +9,9 @@
         <p>{{.Title}}</p>
         <p>{{.Label}}</p>
         <p>{{.Year}}</p>
+        <img src="{{.Cover}}" alt="">
     {{end}}
+
 
 
 {{end}}

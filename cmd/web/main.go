@@ -60,8 +60,9 @@ func main() {
 
 
 	httpRouter.GET("/", app.Home)
-	httpRouter.GET("/record", app.ShowRecord)
-	httpRouter.POST("/record/create", app.CreateRecord)
+	httpRouter.GET("/record/create", app.CreateRecord)
+	httpRouter.GET("/record/{id}", app.ShowRecord)
+	httpRouter.POST("/record/create", app.CreateRecordForm)
 	httpRouter.SERVE(os.Getenv("PORT"))
 
 

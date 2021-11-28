@@ -58,6 +58,8 @@
   --primary-red-light: #d94e4e40;
   --dropDownBg: #dbdbdb;
   --bodyBackground: #fff;
+  --highlightBlue: #3b82f6;
+  --highlightBlueShadow: #bfdbfe;
 }
 
 $theme-colors: (
@@ -77,7 +79,7 @@ $theme-colors: (
     "secondary-light--text":#191919,
   ),
   "bg-color": (
-    "primary":  #d94e4e,
+    "primary":  #2c6bd2,
     "primary-light": #2463eb45,
     "primary-dark": #1c1b1b,
     "secondary-dark": #454545,

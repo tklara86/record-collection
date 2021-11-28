@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS records (
      title varchar(255) NOT NULL,
      label varchar(255) NOT NULL,
      year varchar(255) NOT NULL,
+     cover varchar(255) NOT NULL,
      created_at datetime,
      updated_at datetime
 );
