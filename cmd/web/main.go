@@ -15,16 +15,15 @@ import (
 )
 
 var (
-	repo 			 = repository.NewMySQLRepository()
-	httpRouter       = router.NewMuxRouter()
-	logError  		 *config.Application
+	repo       = repository.NewMySQLRepository()
+	httpRouter = router.NewMuxRouter()
+	logError   *config.Application
 )
 
 type application struct {
-	records *mysql.RecordModel
+	records       *mysql.RecordModel
 	templateCache map[string]*template.Template
 }
-
 
 func main() {
 
@@ -54,17 +53,16 @@ func main() {
 	}
 
 	app := &application{
-		records: &mysql.RecordModel{DB: db},
+		records:       &mysql.RecordModel{DB: db},
 		templateCache: templateCache,
 	}
-
 
 	httpRouter.GET("/", app.Home)
 	httpRouter.GET("/record/create", app.CreateRecord)
 	httpRouter.GET("/record/{id}", app.ShowRecord)
 	httpRouter.POST("/record/create", app.CreateRecordForm)
+	httpRouter.GET("/admin/login", app.AdminLogin)
+	httpRouter.POST("/admin/login", app.PostAdminLogin)
 	httpRouter.SERVE(os.Getenv("PORT"))
 
-
 }
-

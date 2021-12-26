@@ -9,16 +9,17 @@ import (
 	"github.com/record-collection/errors"
 	"github.com/record-collection/models"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
+	"unicode/utf8"
 )
 
 var (
 	errorType = errors.NewServiceErrors()
-
 )
-
 
 // Home it is home page
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +39,14 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// AdminLogin login page
+func (app *application) AdminLogin(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "login.page.tmpl", &templateData{})
+}
+
+func (app *application) PostAdminLogin(w http.ResponseWriter, r *http.Request) {
+	log.Println("it works")
+}
 
 // ShowRecord show single record
 func (app *application) ShowRecord(w http.ResponseWriter, r *http.Request) {
@@ -56,9 +65,8 @@ func (app *application) ShowRecord(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
 	app.render(w, r, "record.page.tmpl", &templateData{
-		Record:  s,
+		Record: s,
 	})
 
 }
@@ -69,17 +77,18 @@ func (app *application) CreateRecord(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "create.page.tmpl", &templateData{Record: nil})
 }
 
-
 // CreateRecordForm creates a new record
 func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request) {
 	const MaxUploadSize = 1024 * 1024 // 1MB
 	var ctx = context.Background()
-	//r.Body = http.MaxBytesReader(w, r.Body, 2048)
-	//err := r.ParseForm()
-	//if err != nil {
-	//	errorType.ClientError(w, http.StatusBadRequest)
-	//	return
-	//}
+
+	err := r.ParseForm()
+	if err != nil {
+		errorType.ClientError(w, http.StatusBadRequest)
+		return
+	}
+
+	errorsMap := make(map[string]string)
 
 	r.Body = http.MaxBytesReader(w, r.Body, MaxUploadSize)
 	if err := r.ParseMultipartForm(MaxUploadSize); err != nil {
@@ -87,11 +96,9 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-
 	file, fileHeader, err := r.FormFile("inputCover")
 	if err != nil {
-		fmt.Println("Error Retrieving the File")
-		fmt.Println(err)
+		errorsMap["noImage"] = "Please select an image"
 		return
 	}
 
@@ -106,8 +113,8 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 
 	filetype := http.DetectContentType(buff)
 	if filetype != "image/jpeg" && filetype != "image/png" {
-		http.Error(w, "The provided file format is not allowed. Please upload a JPEG or PNG image", http.StatusBadRequest)
-		return
+		errorsMap["fileFormat"] = "The provided file format is not allowed. Please upload a JPEG or PNG image"
+		//http.Error(w, "The provided file format is not allowed. Please upload a JPEG or PNG image", http.StatusBadRequest)
 	}
 
 	_, err = file.Seek(0, io.SeekStart)
@@ -115,7 +122,6 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 
 	err = os.MkdirAll("./uploads", os.ModePerm)
 	if err != nil {
@@ -148,19 +154,41 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 
 	resp, err := cld.Upload.Upload(ctx, dst.Name(),
 		uploader.UploadParams{
-			PublicID: fileHeader.Filename,
+			PublicID:       fileHeader.Filename,
 			AllowedFormats: []string{"jpg", "jpeg", "png"},
-			Folder: "covers",
-			Tags: []string{"album cover"},
+			Folder:         "covers",
+			Tags:           []string{"album cover"},
 		})
 
-
-
 	record := &models.Record{
-		Title:    r.PostForm.Get("inputTitle"),
-		Label:    r.PostForm.Get("inputLabel"),
-		Year:     r.PostForm.Get("inputYear"),
-		Cover: 	  resp.SecureURL,
+		Title: r.PostForm.Get("inputTitle"),
+		Label: r.PostForm.Get("inputLabel"),
+		Year:  r.PostForm.Get("inputYear"),
+		Cover: resp.SecureURL,
+	}
+
+	if strings.TrimSpace(record.Title) == "" {
+		errorsMap["title"] = "This field cannot be blank"
+	}
+
+	if utf8.RuneCountInString(record.Title) > 50 {
+		errorsMap["title"] = "This field is too long(maximum 50 characters)"
+	}
+
+	if strings.TrimSpace(record.Label) == "" {
+		errorsMap["label"] = "This field cannot be blank"
+	}
+
+	if strings.TrimSpace(record.Year) == "" {
+		errorsMap["year"] = "This field cannot be blank"
+	}
+
+	if len(errorsMap) > 0 {
+		app.render(w, r, "create.page.tmpl", &templateData{
+			FormData:   r.PostForm,
+			FormErrors: errorsMap,
+		})
+		return
 	}
 
 	id, err := app.records.Insert(record)
@@ -170,14 +198,11 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Remove uploads file
-	//err = os.RemoveAll("./uploads")
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
+	err = os.RemoveAll("./uploads")
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	http.Redirect(w, r, fmt.Sprintf("/record/%d", id), http.StatusSeeOther)
 
 }
-
-
-

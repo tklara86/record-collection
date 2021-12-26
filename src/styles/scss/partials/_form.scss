@@ -139,12 +139,12 @@ label {
   height: 16px;
   &.is-success {
     background-color: green;
-   // mask-image: url('./src/icons/check-circled.svg');
+    mask-image: url('/dist/icons/check-circled.svg');
     mask-repeat:no-repeat;
   }
   &.is-danger {
     background-color: red;
-   // mask-image: url('./src/icons/check-circled.svg');
+    mask-image: url('/dist/icons/cross-circled.svg');
     mask-repeat: no-repeat;
   }
 }
@@ -157,9 +157,11 @@ label {
   left: 15px;
   position: absolute;
   background: red;
-  padding: 0 5px;
+  padding: 2px 5px;
   border-radius: 3px;
 }
+
+
 
 
 
@@ -271,9 +273,13 @@ ul.custom-option {
   background-position-x: 0;
   background-position-y: 0;
   display: inline-block;
-  background: url('/dist/icons/chevron-down.svg') no-repeat center;
   width: 20px;
   height: 20px;
+  background-size: cover;
+}
+
+.dropdown-icon {
+  background: url('/dist/icons/chevron-down.svg') no-repeat center;
   background-size: cover;
 }
 

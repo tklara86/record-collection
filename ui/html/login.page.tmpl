@@ -1,0 +1,25 @@
+{{ template "base" .}}
+
+
+{{define "title"}}Login{{end}}
+
+{{define "main"}}
+    <form action="/admin/login" method="post">
+        <div class="form-control">
+            <label class="form-label" for="inputEmail">Email</label>
+            <input class="input-control input-control--small" type="email" name="inputEmail"
+                   id="inputEmail" placeholder="Email">
+        </div>
+
+        <div class="form-control">
+            <label class="form-label" for="inputPassword">Password</label>
+            <input class="input-control input-control--small" type="text" name="inputPassword"
+                   id="inputPassword" placeholder="Password">
+        </div>
+
+        <input type="submit" value="Log in" class="btn btn-small btn-primary"/>
+
+    </form>
+
+
+{{end}}

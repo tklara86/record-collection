@@ -2,24 +2,23 @@ package controller
 
 import (
 	"github.com/record-collection/models/mysql"
-	"net/http"
 )
 
-type recordController struct{
+type recordController struct {
 	app *mysql.RecordModel
 }
 
 var (
-	//recordService service.RecordService
-	//logError  		errors.Errors
+//recordService service.RecordService
+//logError  		errors.Errors
 
 )
 
-type RecordController interface {
-	ShowRecord(w http.ResponseWriter, r *http.Request)
-	CreateRecord(controller *recordController) http.HandlerFunc
-
-}
+//type RecordController interface {
+//	ShowRecord(w http.ResponseWriter, r *http.Request)
+//	CreateRecord(controller *recordController) http.HandlerFunc
+//
+//}
 //
 //func NewRecordController() RecordController {
 //	//recordService = r
@@ -39,9 +38,6 @@ type RecordController interface {
 //	}
 //}
 //
-
-
-
 
 //func (rc *recordController) CreateRecord(w http.ResponseWriter, r *http.Request) {
 //
@@ -65,4 +61,3 @@ type RecordController interface {
 //
 //	http.Redirect(w, r, fmt.Sprintf("/record?id=%d", id), http.StatusSeeOther)
 //}
-

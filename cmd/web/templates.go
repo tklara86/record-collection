@@ -3,18 +3,21 @@ package main
 import (
 	"github.com/record-collection/models"
 	"html/template"
+	"net/url"
 	"path/filepath"
 )
 
 type link struct {
 	LinkTitle string
-	LinkPath string
+	LinkPath  string
 }
 
 type templateData struct {
-	Records []*models.Record
-	Record *models.Record
-	Links []link
+	FormData    url.Values
+	FormErrors  map[string]string
+	Records     []*models.Record
+	Record      *models.Record
+	Links       []link
 	CurrentYear int
 }
 
@@ -35,7 +38,6 @@ func newTemplateCache(dir string) (map[string]*template.Template, error) {
 		// Extract the file name (like 'home.page.tmpl') from the full file path
 		// and assign it to the name variable.
 		name := filepath.Base(page)
-
 
 		// Parse the page template file in to a template set.
 		ts, err := template.ParseFiles(page)

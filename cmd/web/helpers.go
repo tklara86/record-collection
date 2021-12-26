@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 func (app *application) common(td *templateData) *templateData {
 	if td == nil {
 		td = &templateData{}
@@ -30,7 +29,6 @@ func (app *application) common(td *templateData) *templateData {
 
 	return td
 }
-
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, name string,
 	td *templateData) {

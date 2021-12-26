@@ -7,26 +7,47 @@
     <form enctype="multipart/form-data" action="/record/create" method="post">
         <div class="form-control">
             <label class="form-label" for="inputTitle">Title</label>
-            <input class="input-control input-control--small" type="text" name="inputTitle"
-                   id="inputTitle" placeholder="Title">
+            {{ with .FormErrors.title}}
+                <span class="error-message">{{.}}</span>
+            {{end}}
+            <span class="form-alert {{with .FormErrors.title}} is-danger {{end}}"></span>
+            <input class="input-control input-control--small {{with .FormErrors.title}} is-danger {{end}}"
+                   type="text"
+                   name="inputTitle"
+                   id="inputTitle" placeholder="Title" value="{{.FormData.Get "inputTitle"}}">
         </div>
 
         <div class="form-control">
-            <label class="form-label" for="inputLabel">Label</label>
-            <input class="input-control input-control--small" type="text" name="inputLabel"
-                   id="inputLabel" placeholder="Label">
+            <label class="form-label"
+                   for="inputLabel">Label</label>
+            {{ with .FormErrors.label}}
+                <span class="error-message">{{.}}</span>
+            {{end}}
+            <span class="form-alert {{with .FormErrors.label}} is-danger {{end}}"></span>
+            <input class="input-control input-control--small  {{with .FormErrors.label}} is-danger {{end}}" type="text" name="inputLabel"
+                   id="inputLabel" placeholder="Label" value='{{ .FormData.Get "inputLabel"}}'>
+        </div>
+
+
+        <div class="form-control">
+            <label class="form-label"
+                   for="inputYear">Year</label>
+            {{ with .FormErrors.year}}
+                <span class="error-message">{{.}}</span>
+            {{end}}
+            <span class="form-alert {{with .FormErrors.year}} is-danger {{end}}"></span>
+            <input class="input-control input-control--small {{with .FormErrors.year}} is-danger {{end}}" type="text" name="inputYear"
+                   id="inputYear" placeholder="Year" value="{{.FormData.Get "inputYear"}}">
         </div>
 
 
 
         <div class="form-control">
-            <label class="form-label" for="inputYear">Year</label>
-            <input class="input-control input-control--small" type="text" name="inputYear"
-                   id="inputYear" placeholder="Year">
+        <input class="input-control input-control--small" type="file" name="inputCover" />
+            {{ with .FormErrors.fileFormat}}
+                <span class="error-message">{{.}}</span>
+            {{end}}
         </div>
-
-        <input type="file" name="inputCover" />
-
 
         <input type="submit" value="Add Record" class="btn btn-small btn-primary"/>
 
@@ -43,19 +64,34 @@
 {{/*                    <span class="value">Select category</span>*/}}
 {{/*                </div>*/}}
 
+{{/*                <span class="icon dropdown-icon"></span>*/}}
+
+{{/*            </div>*/}}
+{{/*            <div class="option">*/}}
+{{/*                <ul class="custom-option">*/}}
+{{/*                    <li>Classical</li>*/}}
+{{/*                    <li>Jazz</li>*/}}
+{{/*                </ul>*/}}
+{{/*            </div>*/}}
+
+{{/*        </div>*/}}
+
+
+{{/*        <div class="select">*/}}
+{{/*            <div id="val-category" class="custom-select custom-select-category">*/}}
+
+{{/*                <div>*/}}
+{{/*                    <span class="label">Artist</span>*/}}
+{{/*                    <span class="value">Select artist</span>*/}}
+{{/*                </div>*/}}
+
 {{/*                <span class="icon"></span>*/}}
 
 {{/*            </div>*/}}
 {{/*            <div class="option">*/}}
 {{/*                <ul class="custom-option">*/}}
-{{/*                    <li>Option 5</li>*/}}
-{{/*                    <li>Option 6</li>*/}}
-{{/*                    <li>Option 7</li>*/}}
-{{/*                    <li>Option 9</li>*/}}
-{{/*                    <li>Option 5</li>*/}}
-{{/*                    <li>Option 6</li>*/}}
-{{/*                    <li>Option 7</li>*/}}
-{{/*                    <li>Option 9</li>*/}}
+{{/*                    <li>Krzysztof Penderecki</li>*/}}
+{{/*                    <li>Don Cherry</li>*/}}
 {{/*                </ul>*/}}
 {{/*            </div>*/}}
 

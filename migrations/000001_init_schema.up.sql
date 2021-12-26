@@ -1,3 +1,14 @@
+CREATE TABLE IF NOT EXISTS users (
+     id INTEGER PRIMARY KEY AUTO_INCREMENT,
+     first_name varchar(255) NOT NULL,
+     last_name varchar(255) NOT NULL,
+     email varchar(255) NOT NULL,
+     password varchar(255) NOT NULL,
+     access_level int,
+     created_at datetime,
+     updated_at datetime
+);
+
 CREATE TABLE IF NOT EXISTS records (
      record_id INTEGER PRIMARY KEY AUTO_INCREMENT,
      title varchar(255) NOT NULL,
@@ -47,3 +58,6 @@ CREATE TABLE IF NOT EXISTS record_artists (
     FOREIGN KEY (record_id) REFERENCES records(record_id) ON DELETE CASCADE
 
 );
+
+
+
