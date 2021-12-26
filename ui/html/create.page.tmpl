@@ -5,46 +5,51 @@
 {{define "main"}}
 
     <form enctype="multipart/form-data" action="/record/create" method="post">
+        {{with .Form}}
         <div class="form-control">
             <label class="form-label" for="inputTitle">Title</label>
-            {{ with .FormErrors.title}}
+            {{ with .ErrorsMap.Get "inputTitle"}}
                 <span class="error-message">{{.}}</span>
             {{end}}
-            <span class="form-alert {{with .FormErrors.title}} is-danger {{end}}"></span>
-            <input class="input-control input-control--small {{with .FormErrors.title}} is-danger {{end}}"
+            <span class="form-alert {{with .ErrorsMap.inputTitle}} is-danger {{end}}"></span>
+            <input class="input-control input-control--small {{with .ErrorsMap.inputTitle}}
+            is-danger
+{{end}}"
                    type="text"
                    name="inputTitle"
-                   id="inputTitle" placeholder="Title" value="{{.FormData.Get "inputTitle"}}">
+                   id="inputTitle" placeholder="Title" value="{{ .Get "inputTitle"}}">
         </div>
 
         <div class="form-control">
             <label class="form-label"
                    for="inputLabel">Label</label>
-            {{ with .FormErrors.label}}
+            {{ with .ErrorsMap.Get "inputLabel"}}
                 <span class="error-message">{{.}}</span>
             {{end}}
-            <span class="form-alert {{with .FormErrors.label}} is-danger {{end}}"></span>
-            <input class="input-control input-control--small  {{with .FormErrors.label}} is-danger {{end}}" type="text" name="inputLabel"
-                   id="inputLabel" placeholder="Label" value='{{ .FormData.Get "inputLabel"}}'>
+            <span class="form-alert {{with .ErrorsMap.inputLabel}} is-danger {{end}}"></span>
+            <input class="input-control input-control--small  {{with .ErrorsMap.inputLabel}} is-danger {{end}}" type="text" name="inputLabel"
+                   id="inputLabel" placeholder="Label" value='{{ .Get "inputLabel"}}'>
         </div>
 
 
         <div class="form-control">
             <label class="form-label"
                    for="inputYear">Year</label>
-            {{ with .FormErrors.year}}
+            {{ with .ErrorsMap.Get "inputYear"}}
                 <span class="error-message">{{.}}</span>
             {{end}}
-            <span class="form-alert {{with .FormErrors.year}} is-danger {{end}}"></span>
-            <input class="input-control input-control--small {{with .FormErrors.year}} is-danger {{end}}" type="text" name="inputYear"
-                   id="inputYear" placeholder="Year" value="{{.FormData.Get "inputYear"}}">
+            <span class="form-alert {{with  .ErrorsMap.inputYear}} is-danger {{end}}"></span>
+            <input class="input-control input-control--small {{with  .ErrorsMap.inputYear}} is-danger {{end}}" type="text" name="inputYear"
+                   id="inputYear" placeholder="Year" value="{{.Get "inputYear"}}">
         </div>
 
 
 
         <div class="form-control">
+            <label for="inputCover">Image</label>
+
         <input class="input-control input-control--small" type="file" name="inputCover" />
-            {{ with .FormErrors.fileFormat}}
+            {{ with .ErrorsMap.Get "inputCover"}}
                 <span class="error-message">{{.}}</span>
             {{end}}
         </div>
@@ -97,7 +102,7 @@
 
 {{/*        </div>*/}}
 
-
+        {{end}}
     </form>
 
 

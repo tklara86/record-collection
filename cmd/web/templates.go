@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/record-collection/models"
+	"github.com/record-collection/pkg/forms"
 	"html/template"
-	"net/url"
 	"path/filepath"
 )
 
@@ -13,8 +13,8 @@ type link struct {
 }
 
 type templateData struct {
-	FormData    url.Values
-	FormErrors  map[string]string
+	Form        *forms.Form
+	Flash       interface{}
 	Records     []*models.Record
 	Record      *models.Record
 	Links       []link

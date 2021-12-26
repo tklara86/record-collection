@@ -11,12 +11,11 @@ import (
 	"strings"
 )
 
-type muxRouter struct {}
+type muxRouter struct{}
 
 var (
 	muxDispatcher = mux.NewRouter()
-	app = &config.Application{}
-
+	app           = &config.Application{}
 )
 
 func NewMuxRouter() Router {
@@ -47,9 +46,9 @@ func (m *muxRouter) SERVE(port string) {
 	muxDispatcher.Use(logRequest)
 
 	srv := &http.Server{
-		Addr:           *addr,
-		ErrorLog:		app.ErrorLog,
-		Handler:        muxDispatcher,
+		Addr:     *addr,
+		ErrorLog: app.ErrorLog,
+		Handler:  muxDispatcher,
 	}
 	colorBlue := "\033[34m"
 
@@ -57,8 +56,6 @@ func (m *muxRouter) SERVE(port string) {
 	err := srv.ListenAndServe()
 	app.ErrorLog.Fatal(err)
 }
-
-
 
 func neuter(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -71,13 +68,12 @@ func neuter(next http.Handler) http.Handler {
 	})
 }
 
-
 func secureHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-XSS-Protection", "1; mode=block")
 		w.Header().Set("X-Frame-Options", "deny")
 
-		next.ServeHTTP(w,r)
+		next.ServeHTTP(w, r)
 	})
 }
 
@@ -90,5 +86,3 @@ func logRequest(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
-
-

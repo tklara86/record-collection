@@ -7,6 +7,6 @@ import (
 
 type Application struct {
 	ErrorLog *log.Logger
-	InfoLog *log.Logger
-	Records *mysql.RecordModel
+	InfoLog  *log.Logger
+	Records  *mysql.RecordModel
 }

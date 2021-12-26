@@ -6,19 +6,20 @@ import (
 	"github.com/cloudinary/cloudinary-go"
 	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"github.com/record-collection/errors"
 	"github.com/record-collection/models"
+	"github.com/record-collection/pkg/forms"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
-	"unicode/utf8"
 )
 
 var (
 	errorType = errors.NewServiceErrors()
+	store     = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 )
 
 // Home it is home page
@@ -65,16 +66,24 @@ func (app *application) ShowRecord(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var flashMessage interface{}
+
+	flash, _ := store.Get(r, "flash-message")
+
+	for _, val := range flash.Values {
+		flashMessage = val
+	}
+
 	app.render(w, r, "record.page.tmpl", &templateData{
 		Record: s,
+		Flash:  flashMessage,
 	})
 
 }
 
 // CreateRecord displays create record page
 func (app *application) CreateRecord(w http.ResponseWriter, r *http.Request) {
-
-	app.render(w, r, "create.page.tmpl", &templateData{Record: nil})
+	app.render(w, r, "create.page.tmpl", &templateData{Record: nil, Form: forms.New(nil)})
 }
 
 // CreateRecordForm creates a new record
@@ -88,7 +97,7 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	errorsMap := make(map[string]string)
+	//errorsMap := make(map[string]string)
 
 	r.Body = http.MaxBytesReader(w, r.Body, MaxUploadSize)
 	if err := r.ParseMultipartForm(MaxUploadSize); err != nil {
@@ -98,7 +107,7 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 
 	file, fileHeader, err := r.FormFile("inputCover")
 	if err != nil {
-		errorsMap["noImage"] = "Please select an image"
+		//errorsMap["noImage"] = "Please select an image"
 		return
 	}
 
@@ -109,12 +118,6 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
-	}
-
-	filetype := http.DetectContentType(buff)
-	if filetype != "image/jpeg" && filetype != "image/png" {
-		errorsMap["fileFormat"] = "The provided file format is not allowed. Please upload a JPEG or PNG image"
-		//http.Error(w, "The provided file format is not allowed. Please upload a JPEG or PNG image", http.StatusBadRequest)
 	}
 
 	_, err = file.Seek(0, io.SeekStart)
@@ -167,27 +170,13 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 		Cover: resp.SecureURL,
 	}
 
-	if strings.TrimSpace(record.Title) == "" {
-		errorsMap["title"] = "This field cannot be blank"
-	}
+	form := forms.New(r.PostForm)
+	form.FileFormat(buff)
+	form.Required("inputTitle", "inputLabel", "inputYear")
+	form.MaxLength("inputTitle", 50)
 
-	if utf8.RuneCountInString(record.Title) > 50 {
-		errorsMap["title"] = "This field is too long(maximum 50 characters)"
-	}
-
-	if strings.TrimSpace(record.Label) == "" {
-		errorsMap["label"] = "This field cannot be blank"
-	}
-
-	if strings.TrimSpace(record.Year) == "" {
-		errorsMap["year"] = "This field cannot be blank"
-	}
-
-	if len(errorsMap) > 0 {
-		app.render(w, r, "create.page.tmpl", &templateData{
-			FormData:   r.PostForm,
-			FormErrors: errorsMap,
-		})
+	if !form.Valid() {
+		app.render(w, r, "create.page.tmpl", &templateData{Form: form})
 		return
 	}
 
@@ -201,6 +190,18 @@ func (app *application) CreateRecordForm(w http.ResponseWriter, r *http.Request)
 	err = os.RemoveAll("./uploads")
 	if err != nil {
 		fmt.Println(err)
+	}
+
+	store.Options = &sessions.Options{
+		MaxAge: 3600 * 8,
+	}
+	session, _ := store.Get(r, "flash-message")
+
+	session.Values["flash"] = "Record has been successfully added"
+	err = session.Save(r, w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	http.Redirect(w, r, fmt.Sprintf("/record/%d", id), http.StatusSeeOther)

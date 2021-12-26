@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 	"github.com/record-collection/config"
 	router "github.com/record-collection/http"
@@ -10,8 +11,6 @@ import (
 	"html/template"
 	"log"
 	"os"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
@@ -31,7 +30,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
 	dbUser := os.Getenv("DB_USER")
 	dbName := os.Getenv("DB_NAME")
 	dbPassword := os.Getenv("DB_PASSWORD")
